@@ -1,0 +1,17 @@
+<h2>Parent hook</h2>
+<input type="text" (blur)="handlerData($event)"><br><br>
+<p>Input Color<input type="text" (blur)="passColor($event)"></p>
+
+<h3>Simple Form</h3>
+<p>Product Name: <input type="text" [(ngModel)]="name"></p>
+<p>Product Price: <input type="text" [(ngModel)]="price"></p>
+<button (click)="updateProduct()">Update Product</button>
+
+<app-hook-child
+[product]='products'
+[parentData]='data'
+[color]='color'
+>
+<!-- This is for contentAfterInit -->
+<h1 #selector1>This is child content from component</h1>
+</app-hook-child>

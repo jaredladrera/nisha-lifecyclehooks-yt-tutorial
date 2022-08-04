@@ -1,4 +1,6 @@
-import { Component, OnInit, OnChanges, SimpleChanges, Input, DoCheck, AfterContentInit, ContentChild, ElementRef, AfterContentChecked } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges,
+  Input, DoCheck, AfterContentInit, ContentChild, ElementRef,
+  AfterContentChecked, ViewChild, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { IProduct, MProduct } from './../product';
 
 @Component({
@@ -6,16 +8,19 @@ import { IProduct, MProduct } from './../product';
   templateUrl: './hook-child.component.html',
   styleUrls: ['./hook-child.component.css']
 })
-export class HookChildComponent implements OnInit, OnChanges, DoCheck, AfterContentInit, AfterContentChecked {
+export class HookChildComponent implements OnInit,
+ OnChanges, DoCheck, AfterContentInit,
+ AfterContentChecked, AfterViewInit, AfterViewChecked {
 
   @Input() parentData!: string;
   @Input() product?: IProduct;
 
-  @Input() color?: string | "red";
+  @Input() color?: string | "gray";
 
   // This is for afterContentInit
   @ContentChild("selector1") contentChild?: ElementRef;
 
+  @ViewChild('childHook') viewChild?: ElementRef;
 
   constructor() {
     console.log("constructor called")
@@ -46,6 +51,18 @@ export class HookChildComponent implements OnInit, OnChanges, DoCheck, AfterCont
   ngAfterContentChecked(): void {
     console.log("afterContentCheck");
     this.contentChild?.nativeElement.setAttribute("style", `color:${this.color}`);
+  }
+
+  // like other LFC this LFC is oly run onces
+  ngAfterViewInit(): void {
+    console.log("AfterViewInit", this.viewChild);
+    // this.viewChild?.nativeElement.setAttribute('style', 'background-color: gray');
+  }
+
+  // this is run if the viewChild
+  ngAfterViewChecked(): void {
+    console.log("ngAfterViewChecked");
+    this.viewChild?.nativeElement.setAttribute('style', `background-color: ${this.color}`);
   }
 
 }
